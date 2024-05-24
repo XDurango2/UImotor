@@ -89,7 +89,6 @@ class App(tk.Tk):
                 print(f"Datos recibidos: {serial_data}")  # Imprimir datos recibidos para depuración
 
                 try:
-                    # Dividir la línea de datos en componentes
                     if serial_data:
                         parts = serial_data.split(",")
                         data_dict = {}
@@ -102,31 +101,15 @@ class App(tk.Tk):
                             rpm_value = int(data_dict["RPM"])
                             self.label.config(text=f"RPM actual: {rpm_value}")
 
-                            self.ax.clear()
-                            self.ax.set_xlim(-1, 1)
-                            self.ax.set_ylim(-1, 1)
-                            self.ax.set_aspect('equal')
-                            self.ax.axis('off')
-
-                            self.draw_gauge_marks()
-
-                            angle = np.deg2rad(180 - rpm_value * (180 / self.max_value))
-                            x = [0, np.cos(angle)]
-                            y = [0, np.sin(angle)]
-                            self.ax.plot(x, y, color='red', linewidth=3)
-
                             current_time = time.time() - self.start_time
                             self.time_data.append(current_time)
                             self.rpm_data.append(rpm_value)
 
-                            self.graph_ax.clear()
-                            self.graph_ax.plot(self.time_data, self.rpm_data, color='blue')
-                            self.graph_ax.set_xlabel("Tiempo (s)")
-                            self.graph_ax.set_ylabel("RPM")
-                            self.graph_ax.set_title("RPM vs. Tiempo")
+                            # Mantener sólo los últimos 100 puntos de datos
+                            self.time_data = self.time_data[-100:]
+                            self.rpm_data = self.rpm_data[-100:]
 
-                            self.canvas.draw()
-                            self.graph_canvas.draw()
+                            self.update_graph()
                         else:
                             print("RPM no encontrado en los datos recibidos.")
                 except ValueError as e:
@@ -134,18 +117,13 @@ class App(tk.Tk):
                 except Exception as e:
                     print(f"Error inesperado: {e}")  # Imprimir cualquier otro error inesperado
 
-    def draw_gauge_marks(self):
-        for i in range(self.max_value + 1):
-            angle = np.deg2rad(180 - i * (180 / self.max_value))
-            if i % 50 == 0:
-                mark_length = 0.1
-            else:
-                mark_length = 0.05
-            x1 = 0.9 * np.cos(angle)
-            y1 = 0.9 * np.sin(angle)
-            x2 = (0.9 - mark_length) * np.cos(angle)
-            y2 = (0.9 - mark_length) * np.sin(angle)
-            self.ax.plot([x1, x2], [y1, y2], color='black', linewidth=2)
+    def update_graph(self):
+        self.graph_ax.clear()
+        self.graph_ax.plot(self.time_data, self.rpm_data, color='blue')
+        self.graph_ax.set_xlabel("Tiempo (s)")
+        self.graph_ax.set_ylabel("RPM")
+        self.graph_ax.set_title("RPM vs. Tiempo")
+        self.graph_canvas.draw()
 
     def update_plot(self):
         self.after(20, self.update_plot)
