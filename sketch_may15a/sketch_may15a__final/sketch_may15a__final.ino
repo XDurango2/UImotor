@@ -15,7 +15,7 @@ long tiempo = 0;
 #define puenteHEntrada1 9
 #define puenteHEntrada2 10
 
-float speedRPM=600.00;
+float speedRPM;//==600.00;
 float speedPWM=0;       
 
 float kP=0.3; //0.3
@@ -94,6 +94,8 @@ if (Serial.available()) {
   comando.trim();
 
   if (comando.startsWith("RPM:")) {
+    speedRPM=0;
+    delay(100);
     speedRPM = comando.substring(4).toFloat();
   } else if (comando.startsWith("Kp:")) {
     kP = comando.substring(3).toFloat();

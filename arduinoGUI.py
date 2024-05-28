@@ -123,21 +123,21 @@ entry_rpm.grid(row=3, column=0, sticky="N")
 etiqueta_kp = tk.Label(ventana, text="Kp:")
 etiqueta_kp.grid(row=2, column=1, sticky="S")
 entry_kp = tk.Entry(ventana,width = 8)
-entry_kp.insert(0,"1")
+entry_kp.insert(0,"0.3")
 entry_kp.grid(row=3, column=1, sticky="N")
 
 # Crear la etiqueta de Ki
 etiqueta_ki = tk.Label(ventana, text="Ki:")
 etiqueta_ki.grid(row=2, column=2, sticky="S")
 entry_ki = tk.Entry(ventana,width=8)
-entry_ki.insert(0,"0.001")
+entry_ki.insert(0,"0.2")
 entry_ki.grid(row=3, column=2, sticky="N")
 
 # Crear la etiqueta de Kd
 etiqueta_kd = tk.Label(ventana, text="Kd:")
 etiqueta_kd.grid(row=2, column=3, sticky="S")
 entry_kd = tk.Entry(ventana,width=8)#,textvariable="1")
-entry_kd.insert(0,"2")
+entry_kd.insert(0,"0.1")
 entry_kd.grid(row=3, column=3, sticky="N")
 
 
