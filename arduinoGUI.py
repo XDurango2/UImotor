@@ -109,7 +109,7 @@ def reset(rpm_label,kp_label,ki_label,kd_label):
 ventana = tk.Tk(baseName="Control")
 
 # Configurar la ventana
-ventana.title("Sistemas de Control - RPM")
+ventana.title("GUI Control de Velocidad de Motor")
 ventana.geometry("640x650")
 
 # Crear la etiqueta de RPM
@@ -124,7 +124,7 @@ etiqueta_kp = tk.Label(ventana, text="Kp:")
 etiqueta_kp.grid(row=2, column=1, sticky="S")
 entry_kp = tk.Entry(ventana,width = 8)
 entry_kp.insert(0,"0.3")
-entry_kp.grid(row=3, column=1, sticky="N")
+entry_kp.grid(row=3 , column=1, sticky="N")
 
 # Crear la etiqueta de Ki
 etiqueta_ki = tk.Label(ventana, text="Ki:")
@@ -151,15 +151,6 @@ boton_parametros.grid(row=3, column=5)#, columnspan=8)
 # Crear la etiqueta para mostrar el valor de RPM actualizado
 etiqueta_rpm_actualizado = tk.Label(ventana, text="RPM:")
 etiqueta_rpm_actualizado.grid(row=7, column=0,sticky="W")#, columnspan=8)
-'''
-error = tk.Label(ventana, text="Error: ")
-error.grid(row=8, column=0, sticky = "W")
-
-nombre1 = tk.Label(ventana, text=" ‣Jesús Abraham Ramírez Niebla - 01176033", font="Raleway 15 bold")
-nombre1.grid(row=5, column=0, columnspan=8, sticky = "W")
-nombre2 = tk.Label(ventana, text=" ‣José Carlos Ponce Odohui - 01169598", font="Raleway 15 bold")
-nombre2.grid(row=6, column=0, columnspan=8, sticky = "W")
-'''
 
 
 # Crear la figura y el eje para el gráfico
@@ -204,29 +195,7 @@ def actualizar_grafico(frame):
                 actualizar_grafica = True
 
 
-"""
-# Función de animación para actualizar el gráfico
-def actualizar_grafico(frame):
-    global datos_rpm, cantidad_muestras, limite_actual_x, actualizar_grafica
-    with lock:
-        cantidad = min(cantidad_muestras, len(datos_rpm))
-        if cantidad > 0:
-            linea.set_data(datos_tiempo[-cantidad:], datos_rpm[-cantidad:])
-            
-            # Agregar línea de error
-            error = datos_rpm[-1]/ref  # Reemplaza 'calcular_error()' con tu lógica para obtener los valores de error
-            ax.errorbar(datos_tiempo[-cantidad:], datos_rpm[-cantidad:], yerr=error, fmt='none', color='red')
-            
-            etiqueta_rpm_actualizado.config(text=str(datos_rpm[-1]))
-            if actualizar_grafica:
-                limite_x = (datos_tiempo[-cantidad], datos_tiempo[-1])
-                if limite_x[0] != limite_x[1]:
-                    ax.set_xlim(limite_x)
-                    limite_actual_x = limite_x
-            else:
-                ax.set_xlim(limite_actual_x)
-                actualizar_grafica = True
-"""
+
 
 
 # Crear la animación

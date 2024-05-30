@@ -10,12 +10,13 @@ long rpm = 0;
 long pulsoAct = 0;
 long pulsoAnt=0;
 long tiempo = 0;
+bool isLeft=true;
 
 #define entradaPWM 11
 #define puenteHEntrada1 9
 #define puenteHEntrada2 10
 
-float speedRPM;//==600.00;
+float speedRPM=600.00;
 float speedPWM=0;       
 
 float kP=0.3; //0.3
@@ -44,8 +45,13 @@ void setup() {
  
  attachInterrupt(1,interrupcion,RISING);
   
- digitalWrite(puenteHEntrada1,LOW);
- digitalWrite(puenteHEntrada2,HIGH);
+ if (isLeft) {
+    digitalWrite(puenteHEntrada1, LOW);
+    digitalWrite(puenteHEntrada2, HIGH);
+  } else {
+    digitalWrite(puenteHEntrada1, HIGH);
+    digitalWrite(puenteHEntrada2, LOW);
+  } 
   
 }
 
@@ -82,7 +88,14 @@ if((tiempoAct-tiempoAnt)>=intervalo){
  
  Serial.println(String(rpm));
   }
-
+   if (isLeft) {
+    digitalWrite(puenteHEntrada1, LOW);
+    digitalWrite(puenteHEntrada2, HIGH);
+  } else {
+    digitalWrite(puenteHEntrada1, HIGH);
+    digitalWrite(puenteHEntrada2, LOW);
+  } 
+  
 }
 
 void interrupcion(){
@@ -97,6 +110,12 @@ if (Serial.available()) {
     speedRPM=0;
     delay(100);
     speedRPM = comando.substring(4).toFloat();
+    if(speedRPM<0){
+      isLeft=true;
+      speedRPM=abs(speedRPM);
+    }else{
+      isLeft=false;
+    }
   } else if (comando.startsWith("Kp:")) {
     kP = comando.substring(3).toFloat();
   } else if (comando.startsWith("Kd:")) {
